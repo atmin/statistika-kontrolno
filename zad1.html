@@ -1,0 +1,57 @@
+<!doctype html>
+
+<script src='https://unpkg.com/papaparse'></script>
+<script src='https://unpkg.com/jstat'></script>
+<script>
+  var parseOptions = {header: true, dynamicTyping: true};
+  var data = Papa.parse(`Индивид	Тегло
+1	165
+2	254
+3	255
+4	222
+5	66
+6	258
+7	105
+8	167
+9	262
+10	206
+11	237
+12	144
+13	214
+14	191
+15	132
+16	227
+17	228
+18	181
+19	155
+20	244
+21	179
+22	200
+23	225
+24	128
+25	173
+26	195
+27	117
+28	234
+29	86
+30	212
+31	208
+32	170
+33	181
+34	189
+35	104
+36	187
+37	157
+38	274
+39	171
+40	292`, parseOptions).data;
+
+  var weights = data.map(datum => datum.Тегло);
+  var mean = jStat.mean(weights);
+  var stdev = jStat.stdev(weights);
+
+  console.log('Mean weight: ', mean);
+  console.log('Median weight: ', jStat.median(weights));
+  console.log('Standard deviation', stdev);
+  console.log('~95% (2*sigma) от индивидите тежат между ', mean - 2*stdev, 'и', mean + 2*stdev);
+</script>

@@ -1,0 +1,44 @@
+<!doctype html>
+
+<script src='https://unpkg.com/papaparse'></script>
+<script src='https://unpkg.com/jstat'></script>
+<script>
+  var parseOptions = {header: true, dynamicTyping: true};
+  var data = Papa.parse(`State	Индекс качество на живот	Комбинирана	Мьжки пол: Села	Женски пол: Села	Мьжки пол: Градове	Женски пол: Градове
+UTTARPRAD.	17	167	159	187	110	111
+MADHYA PRAD.	28	135	148	134	88	83
+ORISSA	24	133	131	142	78	81
+RAJASTHAN	29	129	135	142	55	77
+GUJARAT	36	118	120	135	92	84
+ANDHRA PRAD.	33	112	138	101	79	46
+HARYANA	55	109	107	128	57	60
+ASSAM	35	118	133	106	87	85
+PUNJAB	62	103	115	108	58	73
+TAMILNADU	43	103	125	115	67	59
+KARNATAKA	52	75	92	70	51	59
+MAHARASHTRA	60	75	95	72	50	62
+KERALA	92	39	42	42	22	30`, parseOptions).data;
+
+  var Y = data.map(datum => datum['Индекс качество на живот']);
+  var x1 = data.map(datum => datum['Комбинирана']);
+  var x2 = data.map(datum => datum['Мьжки пол: Села']);
+  var x3 = data.map(datum => datum['Женски пол: Села']);
+  var x4 = data.map(datum => datum['Мьжки пол: Градове']);
+  var x5 = data.map(datum => datum['Женски пол: Градове']);
+
+  console.log('corrcoeff(Y, x1) = ', jStat.corrcoeff(Y, x1));
+  console.log('corrcoeff(Y, x2) = ', jStat.corrcoeff(Y, x2));
+  console.log('corrcoeff(Y, x3) = ', jStat.corrcoeff(Y, x3));
+  console.log('corrcoeff(Y, x4) = ', jStat.corrcoeff(Y, x4));
+  console.log('corrcoeff(Y, x5) = ', jStat.corrcoeff(Y, x5));
+
+  console.log('1) колкото е по-висок индекс качество на живот, толкова по-ниска е детската смъртност');
+  console.log('2) x2 (Мьжки пол: Села) е най-подходяща за регресионен модел');
+  console.log('3) доста зависими са:');
+  console.log('corrcoeff(x1, x2) = ', jStat.corrcoeff(x1, x2));
+  console.log('corrcoeff(x1, x3) = ', jStat.corrcoeff(x1, x3));
+  console.log('corrcoeff(x1, x4) = ', jStat.corrcoeff(x1, x4));
+  console.log('corrcoeff(x1, x5) = ', jStat.corrcoeff(x1, x5));
+  console.log('животът в селата е свързан с по-висока смъртност');
+  console.log('в селата женската смъртност е по-висока, но в градовете е обратното: мъжката е по-висока');
+</script>
